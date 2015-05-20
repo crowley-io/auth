@@ -11,6 +11,7 @@ import (
 )
 
 const (
+	// Socket timeout for incoming ssh connection.
 	SSHSocketTimeout = 1
 )
 
