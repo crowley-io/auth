@@ -16,20 +16,14 @@ const (
 
 type SSHServer struct {
 
-	/**
-	 * Server configuration
-	 */
+	// Server configuration
 	port   uint64
 	config *ssh.ServerConfig
 
-	/**
-	 * Server behavior
-	 */
+	// Server behavior
 	handler SSHHandler
 
-	/**
-	 * Server shutdown handler
-	 */
+	// Server shutdown handler
 	shutdown chan bool
 	lock     *sync.WaitGroup
 }
