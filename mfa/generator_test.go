@@ -1,7 +1,6 @@
 package mfa
 
 import (
-	_ "fmt"
 	"net/url"
 	"testing"
 
@@ -22,6 +21,10 @@ func TestRandomAuthKey(t *testing.T) {
 
 	t.Logf("%+v", auth)
 	t.Logf("%+v", u)
+
+	if !assert.Empty(t, err) {
+		t.Fatalf("%+v", err)
+	}
 }
 
 func TestErrorAuthKey(t *testing.T) {
