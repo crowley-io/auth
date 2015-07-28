@@ -14,7 +14,7 @@ const DefaultSecretKeyLength = 100
 // (http://tools.ietf.org/html/rfc3548).
 type SecretKeyGenerator func() (string, error)
 
-// Lazy regexp that verify if secret key for 2FA seems correct
+// Lazy regexp that verify if secret key for 2FA seems correct.
 var (
 	keyRegExp = regexp.MustCompile("^otpauth:\\/\\/totp\\/[!-~]+:[!-~]+?secret=[\\w]+=*&issuer=[!-~]+$")
 )
@@ -36,6 +36,7 @@ func AuthKey(issuer string, user string, generate SecretKeyGenerator) (string, e
 	return auth, nil
 }
 
+// An implementation of SecretKeyGenerator.
 func RandomBase32() (string, error) {
 
 	// Generate random secret
