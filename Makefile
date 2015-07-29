@@ -8,12 +8,14 @@ setup-test: setup
 
 test:	setup-test
 	go test $(GO_PACKAGE)/ssh
+	go test $(GO_PACKAGE)/otp
 
-coverage: ssh/cover.out mfa/cover.out
+coverage: ssh/cover.out otp/cover.out
 
 	@echo "mode: set" > $@ && cat $^ 2>/dev/null | grep -v mode: | sort -r | \
 		awk '{if($$1 != last) {print $$0;last=$$1}}' >> $@
 	go tool cover -html=$@ -o $@.html
+	@rm $@ 2>/dev/null || true
 	@rm $^ 2>/dev/null || true
 
 # cover.out: setup-test
@@ -22,5 +24,5 @@ coverage: ssh/cover.out mfa/cover.out
 ssh/cover.out: setup-test
 	go test -coverprofile=$@ $(GO_PACKAGE)/ssh
 
-mfa/cover.out: setup-test
-	go test -coverprofile=$@ $(GO_PACKAGE)/mfa
+otp/cover.out: setup-test
+	go test -coverprofile=$@ $(GO_PACKAGE)/otp
