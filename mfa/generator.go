@@ -13,8 +13,8 @@ func Generate(issuer string, user string) (*Key, error) {
 			AccountName: user,
 			Period:      DefaultPeriod,
 			SecretSize:  DefaultSecretKeyLength,
-			Algorithm:   DefaultAlgorithm,
-			Digits:      DefaultDigits,
+			Algorithm:   algorithm,
+			Digits:      digits,
 		})
 	}
 

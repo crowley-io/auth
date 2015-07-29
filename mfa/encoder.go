@@ -14,7 +14,7 @@ func Encode(secret string) (string, error) {
 
 	unix := time.Now().UTC().Unix()
 	value := unix / DefaultPeriod
-	hash := DefaultAlgorithm.Hash
+	hash := algorithm.Hash
 	bytes, err := base32.StdEncoding.DecodeString(secret)
 
 	if err != nil {
@@ -68,10 +68,10 @@ func dcb2(dcb1 []byte) uint32 {
 // Compute HTOP final value.
 func code(dcb2 uint32) string {
 
-	l := DefaultDigits.Length()
+	l := digits.Length()
 	p := uint32(math.Pow10(l))
 
 	v := dcb2 % p
 
-	return DefaultDigits.Format(int32(v))
+	return digits.Format(int32(v))
 }
