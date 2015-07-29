@@ -1,75 +1,58 @@
 package mfa
 
 import (
-	"net/url"
 	"testing"
+	"errors"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/pquerna/otp"
 )
 
-func TestRandomAuthKey(t *testing.T) {
+func TestRandomGenerate(t *testing.T) {
 
-	auth, err := AuthKey("crowley.io", "user@gmail.com", RandomBase32)
+	key, err := Generate("crowley.io", "user@gmail.com")
 
-	assert.Nil(t, err)
-
-	if !assert.NotEmpty(t, auth) {
+	if !assert.Nil(t, err) {
 		t.Fatalf("%+v", err)
 	}
 
-	u, err := url.Parse(auth)
-
-	t.Logf("%+v", auth)
-	t.Logf("%+v", u)
-
-	if !assert.Empty(t, err) {
+	if !assert.NotEmpty(t, key) {
 		t.Fatalf("%+v", err)
 	}
+
 }
 
-func TestErrorAuthKey(t *testing.T) {
+func TestErrorGenerate(t *testing.T) {
 
-	auth, err := AuthKey("crowley.io", "user@gmail.com", func() (string, error) {
-		return "foobar", ErrCreateRandSecret
-	})
+	e := errors.New("An error has occurred...")
+
+	invoker := func(issuer string, user string) (*otp.Key, error) {
+		return nil, e
+	}
+
+	key, err := generate("crowley.io", "user@gmail.com", invoker)
 
 	assert.NotNil(t, err)
-	assert.Equal(t, ErrCreateRandSecret, err)
+	assert.Equal(t, e, err)
 
-	if !assert.Empty(t, auth) {
-		t.Fatalf("%+v", auth)
+	if !assert.Nil(t, key) {
+		t.Fatalf("%+v", key)
 	}
 
 }
 
-func TestSpecificAuthKey(t *testing.T) {
+func TestGenerateKeyInfo(t *testing.T) {
 
-	auth, err := AuthKey("crowley.io", "user@gmail.com", func() (string, error) {
-		return "JBSWY3DPEHPK3PXP", nil
-	})
-
-	assert.Nil(t, err)
-
-	if !assert.NotEmpty(t, auth) {
+	key, err := Generate("crowley.io", "user@gmail.com")
+	
+	if !assert.NotNil(t, key) {
 		t.Fatalf("%+v", err)
 	}
 
-	assert.Contains(t, auth, "crowley.io")
-	assert.Contains(t, auth, "user@gmail.com")
-	assert.Contains(t, auth, "JBSWY3DPEHPK3PXP")
+	assert.Equal(t, "crowley.io", key.Issuer())
+	assert.Equal(t, "user@gmail.com", key.AccountName())
+	assert.Equal(t, "totp", key.Type())
+	assert.NotEmpty(t, key.Secret())
 
-	t.Logf("%+v", auth)
-}
-
-func TestErrorAuthKeyIssuer(t *testing.T) {
-
-	auth, err := AuthKey("crowley io", "user@gmail.com", RandomBase32)
-
-	assert.NotNil(t, err)
-	assert.Equal(t, ErrSecretURIFormat, err)
-
-	if !assert.Empty(t, auth) {
-		t.Fatalf("%+v", auth)
-	}
-
+	t.Logf("%+v", key)
 }
