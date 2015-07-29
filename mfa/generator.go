@@ -1,8 +1,8 @@
 package mfa
 
 import (
-	"github.com/pquerna/otp/totp"
 	"github.com/pquerna/otp"
+	"github.com/pquerna/otp/totp"
 )
 
 func Generate(issuer string, user string) (*Key, error) {

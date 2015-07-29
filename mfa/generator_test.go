@@ -1,11 +1,11 @@
 package mfa
 
 import (
-	"testing"
 	"errors"
+	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/pquerna/otp"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRandomGenerate(t *testing.T) {
@@ -44,7 +44,7 @@ func TestErrorGenerate(t *testing.T) {
 func TestGenerateKeyInfo(t *testing.T) {
 
 	key, err := Generate("crowley.io", "user@gmail.com")
-	
+
 	if !assert.NotNil(t, key) {
 		t.Fatalf("%+v", err)
 	}
