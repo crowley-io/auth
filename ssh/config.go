@@ -1,12 +1,10 @@
 package ssh
 
-import "golang.org/x/crypto/ssh"
-
 //
 // Interface used to handle new user connection.
 //
 type SSHHandler interface {
-	OnConnect(channel ssh.Channel, user User)
+	OnConnect(channel Channel, user User)
 }
 
 //

@@ -185,6 +185,6 @@ func (s *SSHServer) dispatch(client *ssh.ServerConn, channel ssh.NewChannel) {
 			key:  []byte(client.Permissions.Extensions["pubkey"]),
 		}
 
-		s.handler.OnConnect(ch, u)
+		s.handler.OnConnect(Channel{ch}, u)
 	}
 }

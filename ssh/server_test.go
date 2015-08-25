@@ -17,7 +17,7 @@ type SSHTestHandler struct {
 	user   User
 }
 
-func (h *SSHTestHandler) OnConnect(channel ssh.Channel, user User) {
+func (h *SSHTestHandler) OnConnect(channel Channel, user User) {
 	h.called = true
 	h.user = user
 	fmt.Fprintf(channel, "Hello %s !\r\n", user.Name())
