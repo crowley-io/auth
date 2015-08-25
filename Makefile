@@ -26,3 +26,6 @@ ssh/cover.out: setup-test
 
 otp/cover.out: setup-test
 	go test -coverprofile=$@ $(GO_PACKAGE)/otp
+
+style:
+	gofmt -w .
