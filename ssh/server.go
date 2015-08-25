@@ -13,6 +13,9 @@ import (
 const (
 	// Socket's timeout for incoming ssh connection.
 	SocketTimeout = 1
+
+	// Default error messages.
+	execErrMessage = "Hello %s! You've successfully authenticated, but we do not provide shell access.\r\n"
 )
 
 type SSHServer struct {
@@ -171,7 +174,7 @@ func (s *SSHServer) dispatch(client *ssh.ServerConn, channel ssh.NewChannel) {
 
 			// Ignore exec request with a "nice" message
 			r.Reply(true, nil)
-			fmt.Fprintf(ch, "Hello %s, ssh commands are disabled.\r\n", client.User())
+			fmt.Fprintf(ch, execErrMessage, client.User())
 			ch.Close()
 
 			// Continue to next request
