@@ -28,10 +28,10 @@ func TestRandomValidator(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 
-	sucess := Validate(code, key.Secret())
+	success := Validate(code, key.Secret())
 
-	if !assert.True(t, sucess) {
-		t.Fatalf("%+v", sucess)
+	if !assert.True(t, success) {
+		t.Fatalf("%+v", success)
 	}
 
 }
