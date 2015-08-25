@@ -12,7 +12,7 @@ import (
 
 const (
 	// Socket's timeout for incoming ssh connection.
-	SSHSocketTimeout = 1
+	SocketTimeout = 1
 )
 
 type SSHServer struct {
@@ -93,7 +93,7 @@ func (s *SSHServer) Listen() error {
 func (s *SSHServer) accept(socket *net.TCPListener) {
 
 	// Define socket timeout
-	socket.SetDeadline(time.Now().Add(SSHSocketTimeout * time.Second))
+	socket.SetDeadline(time.Now().Add(SocketTimeout * time.Second))
 
 	// Wait for incoming client
 	tcp, err := socket.AcceptTCP()
