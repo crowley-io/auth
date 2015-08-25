@@ -23,3 +23,11 @@ type SSHConfig struct {
 	// Server behavior on new user.
 	handler SSHHandler
 }
+
+func NewConfig(port uint64, path string, handler SSHHandler) *SSHConfig {
+	return &SSHConfig{
+		port:    port,
+		path:    path,
+		handler: handler,
+	}
+}
